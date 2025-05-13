@@ -1,6 +1,6 @@
 SELECT
   s.date_date AS date_date,
-  s.orders_id AS orders_od,
+  s.orders_id AS orders_id,
   s.products_id AS products_id,
   s.quantity AS quantity,
   s.revenue AS revenue,
