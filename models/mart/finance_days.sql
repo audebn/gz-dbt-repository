@@ -11,6 +11,7 @@ SELECT
   SUM(s.quantity) AS total_products_sold
 FROM {{ ref("int_sales_margin") }} AS s
 JOIN {{ ref("int_orders_operational") }} AS ship
+
   ON s.orders_id = ship.orders_id
 GROUP BY s.date_date
 ORDER BY s.date_date DESC
