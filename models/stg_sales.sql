@@ -4,7 +4,7 @@ with source as (
 
 renamed as (
   select 
-    date_date,
+    CAST(date_date AS DATE) AS date_date,
     orders_id, 
     pdt_id as products_id, 
     revenue, 

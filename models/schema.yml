@@ -10,7 +10,7 @@ sources:
           Table des ventes regroupant les dates d'achat, le numéro de commande, 
           de produit, les revenus générés et la quantité achetée.
           # Freshness testing - make sur to fill in the 
-        loaded_at_field: CAST(date_date AS int64) AS column_name
+        loaded_at_field: date_date 
         freshness: 
           warn_after:
             count: 90
@@ -59,4 +59,4 @@ sources:
           - name: logCost
             description: Coût logistique pour chaque commande.
           - name: ship_cost
-            description: Prix total d'expédition pour chaque commande.
+            description: Prix total d'expédition pour chaque commande
