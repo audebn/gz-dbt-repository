@@ -1,9 +1,10 @@
 SELECT 
   s.date_date,
   COUNT(DISTINCT s.orders_id) AS nb_transactions,
-  SUM(s.revenue) AS total_revenue,
-  SUM(s.revenue) / COUNT(DISTINCT s.orders_id) AS average_basket,
-  SUM(ship.operational_margin) AS total_operational_margin,
+  ROUND (SUM(s.revenue),2) AS total_revenue,
+  ROUND (SUM(s.revenue) / COUNT(DISTINCT s.orders_id),2) AS average_basket,
+  ROUND (SUM (s.margin),1) AS margin,
+  ROUND (SUM(ship.operational_margin),1) AS operational_margin,
   SUM(s.purchase_cost) AS total_purchase_cost,
   SUM(ship.shipping_fee) AS total_shipping_fee,
   SUM(ship.logCost) AS total_log_costs,
