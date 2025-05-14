@@ -1,10 +1,10 @@
 
-name: 'my_new_project'
+name: 'dbt_project'
 version: '1.0.0'
 config-version: 2
 
 models:
-  my_new_project:  
+  dbt_project:  
     mart:
       +materialized: table
 
