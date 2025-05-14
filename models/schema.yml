@@ -1,0 +1,62 @@
+version: 2
+
+sources:   
+  - name: raw     
+    schema: gz_raw_data     
+    tables:
+      - name: sales
+        identifier: raw_gz_sales
+        description: >
+          Table des ventes regroupant les dates d'achat, le numéro de commande, 
+          de produit, les revenus générés et la quantité achetée.
+          # Freshness testing - make sur to fill in the 
+        loaded_at_field: date_date 
+        freshness: 
+          warn_after:
+            count: 90
+            period: day
+        columns:
+          - name: date_date
+            description: Date d'achat de la commande.
+          - name: orders_id
+            description: Identifiant unique pour chaque commande.
+            tests:
+              - not_null
+          - name: pdt_id
+            description: Identifiant unique pour chaque produit.
+            tests:
+             - not_null
+          - name: revenue
+            description: Revenu généré par commande.
+          - name: quantity
+            description: Quantité achetée par commande.
+        tests:
+          - unique:
+              column_name: "( orders_id || '-' || pdt_id )"
+
+      - name: product
+        identifier: raw_gz_product
+        description: 
+          Indique le prix unique par produit.
+        columns:
+          - name: products_id
+            description: Identification unique pour chaque produit.
+            tests:
+              - unique
+              - not_null
+          - name: purchase_price
+            description: Prix d'achat pour chaque produit.
+
+      - name: ship
+        identifier: raw_gz_ship
+        description: >
+          Table des informations d'expédition.
+        columns:
+          - name: orders_id
+            description: Identifiant de commande pour chaque livraison.
+          - name: shipping_fee
+            description: Prix d'envoi pour chaque commande.
+          - name: logCost
+            description: Coût logistique pour chaque commande.
+          - name: ship_cost
+            description: Prix total d'expédition pour chaque commande
