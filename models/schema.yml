@@ -1,17 +1,16 @@
 version: 2
 
-sources:   
-  - name: raw     
-    schema: gz_raw_data     
+sources:
+  - name: raw
+    schema: gz_raw_data
     tables:
       - name: sales
         identifier: raw_gz_sales
         description: >
-          Table des ventes regroupant les dates d'achat, le numéro de commande, 
-          de produit, les revenus générés et la quantité achetée.
-          # Freshness testing - make sur to fill in the 
-        loaded_at_field: date_date 
-        freshness: 
+          Table des ventes regroupant les dates d'achat, le numéro de commande,
+          le produit, les revenus générés et la quantité achetée.
+        loaded_at_field: date_date
+        freshness:
           warn_after:
             count: 90
             period: day
@@ -25,38 +24,166 @@ sources:
           - name: pdt_id
             description: Identifiant unique pour chaque produit.
             tests:
-             - not_null
+              - not_null
           - name: revenue
-            description: Revenu généré par commande.
+            description: Revenu généré par la commande.
           - name: quantity
-            description: Quantité achetée par commande.
+            description: Quantité achetée pour la commande.
         tests:
           - unique:
               column_name: "( orders_id || '-' || pdt_id )"
 
       - name: product
         identifier: raw_gz_product
-        description: 
-          Indique le prix unique par produit.
+        description: >
+          Table listant les produits avec leur prix d'achat unitaire.
         columns:
           - name: products_id
-            description: Identification unique pour chaque produit.
+            description: Identifiant unique pour chaque produit.
             tests:
               - unique
               - not_null
           - name: purchase_price
-            description: Prix d'achat pour chaque produit.
+            description: Prix d'achat unitaire du produit.
 
       - name: ship
         identifier: raw_gz_ship
         description: >
-          Table des informations d'expédition.
+          Table contenant les informations relatives à l'expédition des commandes.
         columns:
           - name: orders_id
             description: Identifiant de commande pour chaque livraison.
           - name: shipping_fee
-            description: Prix d'envoi pour chaque commande.
+            description: Frais d'envoi pour chaque commande.
           - name: logCost
-            description: Coût logistique pour chaque commande.
+            description: Coût logistique associé à la commande.
           - name: ship_cost
-            description: Prix total d'expédition pour chaque commande
+            description: Coût total de l'expédition pour la commande.
+
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: >
+          Données des campagnes Google Adwords pour une période donnée.
+        columns:
+          - name: date_date
+            description: Date de la campagne.
+            tests:
+              - not_null
+          - name: paid_source
+            description: Source payante (par exemple, "adwords").
+            tests:
+              - not_null
+          - name: campaign_key
+            description: Identifiant unique de la campagne.
+          - name: campgn_name
+            description: Nom de la campagne.
+          - name: ads_cost
+            description: Coût des annonces pour ce jour.
+            tests:
+              - not_null
+          - name: impression
+            description: Nombre d'impressions générées.
+          - name: click
+            description: Nombre de clics générés.
+        tests:
+          - unique:
+              column_name: "( date_date || '-' || campgn_name )"
+
+      - name: bing
+        identifier: raw_gz_bing
+        description: >
+          Données des campagnes Bing Ads pour une période donnée.
+        columns:
+          - name: date_date
+            description: Date de la campagne.
+            tests:
+              - not_null
+          - name: paid_source
+            description: Source payante (par exemple, "bing").
+            tests:
+              - not_null
+          - name: campaign_key
+            description: Identifiant unique de la campagne.
+          - name: campgn_name
+            description: Nom de la campagne.
+          - name: ads_cost
+            description: Coût des annonces pour ce jour.
+            tests:
+              - not_null
+          - name: impression
+            description: Nombre d'impressions générées.
+          - name: click
+            description: Nombre de clics générés.
+        tests:
+          - unique:
+              column_name: "( date_date || '-' || campgn_name )"
+
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: >
+          Données des campagnes Criteo pour une période donnée.
+        columns:
+          - name: date_date
+            description: Date de la campagne.
+            tests:
+              - not_null
+          - name: paid_source
+            description: Source payante (par exemple, "criteo").
+            tests:
+              - not_null
+          - name: campaign_key
+            description: Identifiant unique de la campagne.
+          - name: campgn_name
+            description: Nom de la campagne.
+          - name: ads_cost
+            description: Coût des annonces pour ce jour.
+            tests:
+              - not_null
+          - name: impression
+            description: Nombre d'impressions générées.
+          - name: click
+            description: Nombre de clics générés.
+        tests:
+          - unique:
+              column_name: "( date_date || '-' || campgn_name )"
+
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: >
+          Données des campagnes Facebook Ads pour une période donnée.
+        columns:
+          - name: date_date
+            description: Date de la campagne.
+            tests:
+              - not_null
+          - name: paid_source
+            description: Source payante (par exemple, "facebook").
+            tests:
+              - not_null
+          - name: campaign_key
+            description: Identifiant unique de la campagne.
+          - name: campgn_name
+            description: Nom de la campagne.
+          - name: ads_cost
+            description: Coût des annonces pour ce jour.
+            tests:
+              - not_null
+          - name: impression
+            description: Nombre d'impressions générées.
+          - name: click
+            description: Nombre de clics générés.
+        tests:
+          - unique:
+              column_name: "( date_date || '-' || campgn_name )"
+      - name: campaigns_day
+        identifier: int_campaigns_day
+        description: Table présentant les données groupées par date et par jour
+        columns:
+          - name: date_date
+            description: date de la campagne(agrégation par jour)
+          - name: ads_cost
+            description: Coût total des publicités sur la journée
+          - name: ads_impression
+            description: nombre total d'impression par jour
+          - name: ads_clicks
+            description: nombre total de clicks ce jour là        
