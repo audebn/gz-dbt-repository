@@ -17,7 +17,7 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  Greenweez + Aude:  
+  Greenweez_aude:  
     mart:
       +materialized: table
     finance:
