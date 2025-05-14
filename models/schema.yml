@@ -187,3 +187,15 @@ sources:
             description: nombre total d'impression par jour
           - name: ads_clicks
             description: nombre total de clicks ce jour là        
+      - name: finance_campaign
+        identifier: finance_campaign_days
+        description: table présentant les coûts de campagne par jour
+        columns:
+          - name: date_date
+            description: date de la campagne
+          - name: ads_margin
+            description: marge publicitaire
+          - name: average_basket
+            description: panier moyen
+          - name: operational_margin
+            description: marge opérationnelle
