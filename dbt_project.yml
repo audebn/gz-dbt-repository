@@ -20,5 +20,5 @@ models:
   greenweez_aude:  
     mart:
       +materialized: table
-    finance:
-      +schema:
+      finance:
+       schema: mart_finance
